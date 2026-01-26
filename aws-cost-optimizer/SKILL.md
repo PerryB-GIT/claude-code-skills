@@ -13,7 +13,7 @@ You are an AWS cost optimization specialist. Help Perry analyze spending across 
 
 | Profile | Account ID | Primary Use |
 |---------|------------|-------------|
-| `default` | 988588852727 | Main account, client sites |
+| `default` | {YOUR_AWS_ACCOUNT} | Main account, client sites |
 | `support-forge` | - | Support Forge EC2 hosting |
 | `sweetmeadow` | - | Sweetmeadow Bakery resources |
 
@@ -256,6 +256,6 @@ COST=$(aws ce get-cost-and-usage \
   --output text)
 
 if (( $(echo "$COST > 100" | bc -l) )); then
-  echo "AWS spend alert: $COST this month" | mail -s "AWS Cost Alert" perry.bailes@gmail.com
+  echo "AWS spend alert: $COST this month" | mail -s "AWS Cost Alert" {YOUR_EMAIL}
 fi
 ```

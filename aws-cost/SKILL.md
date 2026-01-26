@@ -74,6 +74,6 @@ aws ce get-cost-and-usage \
 If user specifies a profile (e.g., `/aws-cost --profile support-forge`), use that profile for all commands.
 
 Default profiles from CLAUDE.md:
-- `default` - Main account (988588852727)
+- `default` - Main account ({YOUR_AWS_ACCOUNT})
 - `support-forge` - Support Forge EC2 hosting
 - `sweetmeadow` - Sweetmeadow resources

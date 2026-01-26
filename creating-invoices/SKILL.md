@@ -16,7 +16,7 @@ Haverhill, MA 01832
 
 EIN: 41-3821756
 Email: contact@support-forge.com
-Phone: 978-219-9092
+Phone: {YOUR_PHONE}
 ```
 
 ## Payment Information
@@ -30,8 +30,8 @@ ACH/Bank Transfer (Preferred):
   Routing Number: 211370545
   Account Name: Support Forge LLC
 
-Zelle: perry.bailes@gmail.com
-Venmo: @perry-bailes (or perry.bailes@gmail.com)
+Zelle: {YOUR_EMAIL}
+Venmo: @perry-bailes (or {YOUR_EMAIL})
 ```
 
 ## Invoice Template
@@ -43,7 +43,7 @@ Venmo: @perry-bailes (or perry.bailes@gmail.com)
 ║  SUPPORT FORGE LLC                                           ║
 ║  166 Wilson St                                               ║
 ║  Haverhill, MA 01832                                         ║
-║  contact@support-forge.com | 978-219-9092                    ║
+║  contact@support-forge.com | {YOUR_PHONE}                    ║
 ║  EIN: 41-3821756                                             ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
@@ -79,7 +79,7 @@ Venmo: @perry-bailes (or perry.bailes@gmail.com)
 ║    Account: 8252968985                                       ║
 ║    Routing: 211370545                                        ║
 ║                                                              ║
-║  Zelle/Venmo: perry.bailes@gmail.com                         ║
+║  Zelle/Venmo: {YOUR_EMAIL}                         ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  NOTES                                                       ║
 ║  [Any additional notes or terms]                             ║
@@ -242,7 +242,7 @@ ACH/Bank Transfer (Preferred):
   Account: 8252968985
   Routing: 211370545
 
-Zelle/Venmo: perry.bailes@gmail.com
+Zelle/Venmo: {YOUR_EMAIL}
 
 Please reference invoice #{invoice_number} with your payment.
 
@@ -250,9 +250,9 @@ Questions about this invoice? Just reply to this email.
 
 Thank you for your business!
 
-Perry Bailes
+{YOUR_NAME}
 Support Forge LLC
-978-219-9092
+{YOUR_PHONE}
 ```
 
 ## Payment Tracking
@@ -299,7 +299,7 @@ If you have any questions about the invoice, just let me know.
 
 Payment can be sent via:
 - ACH: Account 8252968985, Routing 211370545
-- Zelle/Venmo: perry.bailes@gmail.com
+- Zelle/Venmo: {YOUR_EMAIL}
 
 Thanks!
 Perry
@@ -320,10 +320,10 @@ know so we can discuss.
 
 Payment options:
 - ACH: Account 8252968985, Routing 211370545
-- Zelle/Venmo: perry.bailes@gmail.com
+- Zelle/Venmo: {YOUR_EMAIL}
 
 Thank you,
-Perry Bailes
+{YOUR_NAME}
 Support Forge LLC
 ```
 

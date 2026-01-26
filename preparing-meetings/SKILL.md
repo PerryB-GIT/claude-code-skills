@@ -204,7 +204,7 @@ Location: [Zoom/Phone/In-person]
 ATTENDEES
 ---------
 - [Name], [Title] at [Company]
-- Perry Bailes, Support Forge
+- {YOUR_NAME}, Support Forge
 
 BACKGROUND
 ----------
@@ -282,7 +282,7 @@ Let me know if you have any questions. Looking forward to
 
 Best,
 Perry
-978-219-9092
+{YOUR_PHONE}
 ```
 
 ### Meeting Notes Template

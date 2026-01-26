@@ -208,7 +208,7 @@ curl -o /dev/null -s -w 'Time: %{time_total}s\n' https://example.com
 ```markdown
 # SEO Audit Report: [Website]
 **Audit Date**: [Date]
-**Prepared By**: Perry Bailes
+**Prepared By**: {YOUR_NAME}
 
 ## Executive Summary
 

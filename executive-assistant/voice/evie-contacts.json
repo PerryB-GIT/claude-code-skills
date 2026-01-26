@@ -1,8 +1,8 @@
 {
   "owner": {
-    "name": "Perry Bailes",
-    "full_name": "John Perry Bailes",
-    "email": "perry.bailes@gmail.com",
+    "name": "{YOUR_NAME}",
+    "full_name": "John {YOUR_NAME}",
+    "email": "{YOUR_EMAIL}",
     "birthday": null
   },
   "family": [

@@ -1,6 +1,6 @@
 # Claude Code Skills & Agents
 
-Personal skill library for Claude Code, built by Perry Bailes.
+Personal skill library for Claude Code, built by {YOUR_NAME}.
 
 ## 📁 Skill Categories
 
@@ -212,7 +212,7 @@ Each skill contains:
 
 ## 📝 License
 
-Personal use. Built for Perry Bailes' Claude Code workflow.
+Personal use. Built for {YOUR_NAME}' Claude Code workflow.
 
 ---
 

@@ -47,7 +47,7 @@ PRINCIPLES:
 ### Comparative Market Analysis (CMA)
 ```markdown
 ## CMA Report: [Subject Property Address]
-**Prepared by**: Perry Bailes
+**Prepared by**: {YOUR_NAME}
 **Date**: [Date]
 
 ### Subject Property

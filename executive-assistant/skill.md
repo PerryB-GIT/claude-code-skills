@@ -379,8 +379,8 @@ AUTO-SEND EMAIL FOR:
 - Overdue reminders (when acknowledged elsewhere)
 
 EMAIL SETTINGS:
-From: Evie (via perry.bailes@gmail.com)
-Reply-to: perry.bailes@gmail.com
+From: Evie (via {YOUR_EMAIL})
+Reply-to: {YOUR_EMAIL}
 Format: HTML preferred, plain text fallback
 ```
 

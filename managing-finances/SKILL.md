@@ -20,7 +20,7 @@ State: Massachusetts
 Type: Single-Member LLC (Member-Managed)
 Fiscal Year End: December 31
 
-Owner: John Perry Bailes
+Owner: John {YOUR_NAME}
 ```
 
 ## Bank Accounts
@@ -41,8 +41,8 @@ ACH/Bank Transfer:
   Account: 8252968985
   Routing: 211370545
 
-Zelle: perry.bailes@gmail.com
-Venmo: perry.bailes@gmail.com
+Zelle: {YOUR_EMAIL}
+Venmo: {YOUR_EMAIL}
 ```
 
 ## Income Tracking
@@ -332,7 +332,7 @@ TOTAL BUDGET: $______
   File at: sec.state.ma.us
 
 □ Keep registered agent current
-  Current: John Perry Bailes
+  Current: John {YOUR_NAME}
   Address: 166 Wilson St, Haverhill, MA 01832
 
 □ Maintain LLC records

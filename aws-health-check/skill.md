@@ -3,7 +3,7 @@
 Quick health check across all of Perry's AWS resources.
 
 ## Profiles to Check
-- `default` (988588852727) - Main account
+- `default` ({YOUR_AWS_ACCOUNT}) - Main account
 - `support-forge` - Support Forge hosting
 - `sweetmeadow` - Sweetmeadow resources
 

@@ -23,7 +23,7 @@ You create professional, persuasive proposals and engagement letters for Support
 ```
 SupportForge
 166 Wilson St, Haverhill, MA 01832
-contact@support-forge.com | 978-219-9092
+contact@support-forge.com | {YOUR_PHONE}
 ```
 
 ### Payment Details
@@ -32,7 +32,7 @@ ACH/Bank Transfer:
 Account Number: 8252968985
 Routing Number: 211370545
 
-Zelle/Venmo: perry.bailes@gmail.com
+Zelle/Venmo: {YOUR_EMAIL}
 ```
 
 ### Brand Colors
@@ -49,7 +49,7 @@ LETTER OF ENGAGEMENT
 ====================
 SupportForge
 Haverhill, MA
-contact@support-forge.com | 978-219-9092
+contact@support-forge.com | {YOUR_PHONE}
 
 Date: [Date]
 
@@ -118,7 +118,7 @@ ACH/Bank Transfer:
   Account Number: 8252968985
   Routing Number: 211370545
 
-Zelle/Venmo: perry.bailes@gmail.com
+Zelle/Venmo: {YOUR_EMAIL}
 
 TERMS & CONDITIONS
 ------------------
@@ -137,7 +137,7 @@ outlined in this Letter of Engagement.
 SupportForge
 
 _________________________________________________
-Perry Bailes
+{YOUR_NAME}
 Principal Consultant
 Date: _____________
 
@@ -151,7 +151,7 @@ Date: _____________
 
 ---
 
-Questions? Contact Perry at contact@support-forge.com or 978-219-9092
+Questions? Contact Perry at contact@support-forge.com or {YOUR_PHONE}
 ```
 
 ## Standard Terms & Conditions

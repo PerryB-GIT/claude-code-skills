@@ -2,6 +2,6 @@
   "name": "mortgage-agent",
   "description": "Mortgage analysis, loan comparison, qualification calculations, rate research, and lending tools",
   "version": "1.0.0",
-  "author": "Perry Bailes",
+  "author": "{YOUR_NAME}",
   "tags": ["mortgage", "loans", "lending", "rates", "qualification", "research"]
 }

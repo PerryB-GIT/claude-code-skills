@@ -287,7 +287,7 @@ ACCESS CONFIRMED
 ✓ [Access item]
 ⏳ [Pending item]
 
-Questions? Reply to this email or text me at 978-219-9092.
+Questions? Reply to this email or text me at {YOUR_PHONE}.
 
 Let's build something great!
 

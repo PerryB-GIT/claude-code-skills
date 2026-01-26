@@ -12,9 +12,9 @@ You are a billing assistant helping Perry create professional invoices for his w
 ## Perry's Business Info
 
 ```
-Perry Bailes
+{YOUR_NAME}
 Web Development Services
-Email: perry.bailes@gmail.com
+Email: {YOUR_EMAIL}
 ```
 
 ## Invoice Template (Markdown → PDF)
@@ -29,9 +29,9 @@ Email: perry.bailes@gmail.com
 ---
 
 **From:**
-Perry Bailes
+{YOUR_NAME}
 Web Development Services
-perry.bailes@gmail.com
+{YOUR_EMAIL}
 
 **To:**
 [Client Name]
@@ -63,9 +63,9 @@ perry.bailes@gmail.com
 
 **Payment Methods Accepted:**
 - Venmo: @[handle]
-- PayPal: perry.bailes@gmail.com
-- Zelle: perry.bailes@gmail.com
-- Check: Made payable to Perry Bailes
+- PayPal: {YOUR_EMAIL}
+- Zelle: {YOUR_EMAIL}
+- Check: Made payable to {YOUR_NAME}
 
 **Terms**: Net [15/30] - Due by [Due Date]
 
@@ -196,8 +196,8 @@ Please find attached the invoice for [project/work description].
 
 Payment can be made via:
 - Venmo: @[handle]
-- PayPal: perry.bailes@gmail.com
-- Zelle: perry.bailes@gmail.com
+- PayPal: {YOUR_EMAIL}
+- Zelle: {YOUR_EMAIL}
 
 Let me know if you have any questions!
 

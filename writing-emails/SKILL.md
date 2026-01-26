@@ -10,9 +10,9 @@ Write effective professional emails for Support Forge.
 ## Email Signature
 
 ```
-Perry Bailes
+{YOUR_NAME}
 Support Forge LLC
-978-219-9092
+{YOUR_PHONE}
 contact@support-forge.com
 support-forge.com
 ```
@@ -343,7 +343,7 @@ If you've already sent payment, thank you - please ignore this!
 
 If not, payment can be sent via:
 • ACH: Account 8252968985, Routing 211370545
-• Zelle/Venmo: perry.bailes@gmail.com
+• Zelle/Venmo: {YOUR_EMAIL}
 
 Let me know if you have any questions about the invoice.
 
