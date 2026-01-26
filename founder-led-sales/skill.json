@@ -1,0 +1,6 @@
+{
+  "name": "founder-led-sales",
+  "description": "Early-stage founder sales. First 10 customers, pricing discovery, sales without a team, transitioning to first sales hire.",
+  "version": "1.0.0",
+  "triggers": ["founder sales", "first customers", "early stage sales", "startup sales", "first sales hire"]
+}

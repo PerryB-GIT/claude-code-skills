@@ -1,0 +1,6 @@
+{
+  "name": "email-automation",
+  "description": "Email automation and sequences. Drip campaigns, triggers, workflows, lead nurturing, behavioral emails. Build automated email systems.",
+  "version": "1.0.0",
+  "triggers": ["email automation", "drip campaign", "email sequence", "email workflow", "nurture sequence", "triggered emails"]
+}

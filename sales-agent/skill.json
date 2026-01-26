@@ -1,0 +1,6 @@
+{
+  "name": "sales-agent",
+  "description": "Master sales toolkit for startups. Founder-led sales, discovery, demos, closing, objections, pipeline management. Full B2B sales cycle from early stage through scale.",
+  "version": "1.0.0",
+  "triggers": ["sales", "selling", "close deal", "sales process", "pipeline", "quota", "revenue", "deals"]
+}

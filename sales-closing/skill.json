@@ -1,0 +1,6 @@
+{
+  "name": "sales-closing",
+  "description": "Closing deals and handling objections. Negotiation tactics, pricing discussions, contract navigation, winning competitive deals.",
+  "version": "1.0.0",
+  "triggers": ["close deal", "objection handling", "negotiation", "pricing objection", "contract", "competitive deal"]
+}

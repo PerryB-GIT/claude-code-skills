@@ -1,0 +1,6 @@
+{
+  "name": "client-deploy",
+  "description": "Deploy any of Perry's client sites. Handles Amplify, S3, and CloudFront deployments.",
+  "version": "1.0.0",
+  "triggers": ["deploy client", "deploy site", "push client site", "deploy amplify", "deploy s3"]
+}

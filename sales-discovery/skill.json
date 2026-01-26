@@ -1,0 +1,6 @@
+{
+  "name": "sales-discovery",
+  "description": "Discovery calls and qualification. BANT, MEDDIC, SPICED frameworks. Uncovering pain, budget, timeline, decision makers.",
+  "version": "1.0.0",
+  "triggers": ["discovery call", "qualification", "BANT", "MEDDIC", "sales questions", "qualify leads"]
+}

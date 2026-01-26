@@ -1,0 +1,6 @@
+{
+  "name": "cold-email-outreach",
+  "description": "Cold email outreach specialist. Prospecting, personalization, sequences, follow-ups, reply handling. B2B sales and lead generation.",
+  "version": "1.0.0",
+  "triggers": ["cold email", "outreach", "prospecting", "lead generation", "sales email", "follow up email"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "newsletter-creator",
+  "description": "Newsletter creation specialist. Content curation, writing, design, growth strategies, monetization. Build and grow engaged subscriber bases.",
+  "version": "1.0.0",
+  "triggers": ["newsletter", "create newsletter", "email newsletter", "subscriber growth", "newsletter content"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "support-forge-deploy",
+  "description": "Deploy Support Forge to production EC2. Use when asked to deploy, push to prod, or update the live site.",
+  "version": "1.0.0",
+  "triggers": ["deploy support forge", "deploy sf", "push to production", "update live site"]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "ceh-agent",
+  "description": "Certified Ethical Hacker / DHS Cybersecurity Agent. For authorized penetration testing, vulnerability assessment, incident response, and security audits. Requires explicit authorization context.",
+  "version": "1.0.0",
+  "triggers": [
+    "ethical hacking",
+    "pentest",
+    "penetration test",
+    "security audit",
+    "vulnerability scan",
+    "ceh",
+    "security assessment",
+    "incident response",
+    "threat hunting",
+    "red team",
+    "blue team"
+  ]
+}

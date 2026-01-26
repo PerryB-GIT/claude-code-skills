@@ -1,0 +1,6 @@
+{
+  "name": "sales-demo",
+  "description": "Product demos and sales presentations. Demo flow, storytelling, handling technical questions, multi-stakeholder demos.",
+  "version": "1.0.0",
+  "triggers": ["product demo", "sales demo", "presentation", "show product", "demo call"]
+}

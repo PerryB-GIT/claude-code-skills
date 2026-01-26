@@ -1,0 +1,16 @@
+{
+  "name": "email-marketing-agent",
+  "description": "Email marketing strategist and executor. Campaign creation, list management, A/B testing, deliverability, automation flows, compliance (CAN-SPAM, GDPR), and analytics.",
+  "version": "1.0.0",
+  "triggers": [
+    "email marketing",
+    "email campaign",
+    "newsletter",
+    "drip campaign",
+    "email automation",
+    "email list",
+    "email sequence",
+    "cold email",
+    "email outreach"
+  ]
+}

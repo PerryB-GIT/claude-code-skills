@@ -1,0 +1,6 @@
+{
+  "name": "threat-intel",
+  "description": "Threat intelligence analysis. IOC lookup, MITRE ATT&CK mapping, threat actor research, malware analysis.",
+  "version": "1.0.0",
+  "triggers": ["threat intel", "ioc", "threat actor", "apt", "mitre attack", "malware analysis", "cve lookup"]
+}

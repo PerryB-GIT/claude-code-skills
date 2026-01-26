@@ -1,0 +1,6 @@
+{
+  "name": "sales-ops",
+  "description": "Sales operations and pipeline management. CRM hygiene, forecasting, metrics, territory planning, sales playbooks.",
+  "version": "1.0.0",
+  "triggers": ["sales ops", "pipeline", "CRM", "forecasting", "sales metrics", "quota", "sales playbook"]
+}

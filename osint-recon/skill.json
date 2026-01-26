@@ -1,0 +1,6 @@
+{
+  "name": "osint-recon",
+  "description": "Open Source Intelligence gathering. Passive reconnaissance, social media analysis, domain intel, breach data checks.",
+  "version": "1.0.0",
+  "triggers": ["osint", "recon", "reconnaissance", "investigate person", "background check", "domain intel"]
+}

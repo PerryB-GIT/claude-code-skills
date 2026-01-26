@@ -1,0 +1,24 @@
+# Embedded git repositories (add as submodules separately if needed)
+ffuf_claude_skill/
+ios-simulator-skill/
+skill-builder/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Audio output
+*.mp3
+*.wav
+
+# Logs
+*.log

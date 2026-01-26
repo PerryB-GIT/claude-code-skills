@@ -1,0 +1,6 @@
+{
+  "name": "risk-management",
+  "description": "Project risk management. Risk identification, assessment, mitigation, risk registers, Monte Carlo, contingency planning.",
+  "version": "1.0.0",
+  "triggers": ["risk management", "risk register", "risk assessment", "mitigation", "contingency", "risk analysis"]
+}

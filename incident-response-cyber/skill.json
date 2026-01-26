@@ -1,0 +1,6 @@
+{
+  "name": "incident-response-cyber",
+  "description": "Cybersecurity incident response. NIST 800-61 methodology, forensics, malware analysis, threat containment.",
+  "version": "1.0.0",
+  "triggers": ["incident response", "security incident", "breach", "compromised", "malware", "forensics", "threat hunting"]
+}

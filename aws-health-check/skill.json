@@ -1,0 +1,6 @@
+{
+  "name": "aws-health-check",
+  "description": "Quick health check across all AWS resources - EC2, Amplify, S3, CloudFront.",
+  "version": "1.0.0",
+  "triggers": ["check aws", "aws status", "health check", "are sites up"]
+}

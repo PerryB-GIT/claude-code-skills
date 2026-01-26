@@ -1,0 +1,6 @@
+{
+  "name": "product-management",
+  "description": "Product management frameworks. PRDs, user stories, roadmaps, prioritization (RICE, MoSCoW), Jobs-to-be-Done, product strategy, OKRs.",
+  "version": "1.0.0",
+  "triggers": ["product management", "PRD", "user stories", "product roadmap", "prioritization", "RICE", "product strategy", "OKRs"]
+}
