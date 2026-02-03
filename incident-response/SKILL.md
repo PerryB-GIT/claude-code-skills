@@ -13,7 +13,7 @@ You are a site reliability engineer helping Perry quickly diagnose and resolve i
 
 | Site | Type | Host | Quick Check |
 |------|------|------|-------------|
-| support-forge.com | EC2 Docker | 44.197.15.102 | `ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102` |
+| support-forge.com | EC2 Docker | {LEGACY_EC2_IP} | `ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP}` |
 | vineyardvalais.com | Amplify | dq... | `aws amplify list-apps` |
 | witchsbroomcleaning.com | S3/CloudFront | S3 | `aws s3 ls s3://witchsbroomcleaning.com` |
 | sweetmeadow-bakery.com | Amplify | dqa0p0t9xllsd | `aws amplify get-app --app-id dqa0p0t9xllsd --profile sweetmeadow` |
@@ -69,7 +69,7 @@ echo | openssl s_client -servername support-forge.com -connect support-forge.com
 
 ```bash
 # SSH into server
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP}
 
 # Once connected:
 # Check Docker containers
@@ -162,7 +162,7 @@ aws cloudfront create-invalidation --distribution-id <dist-id> --paths "/*"
 curl -I https://support-forge.com
 
 # 2. SSH in
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP}
 
 # 3. Check Docker
 docker ps -a

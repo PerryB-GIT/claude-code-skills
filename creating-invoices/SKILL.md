@@ -31,7 +31,7 @@ ACH/Bank Transfer (Preferred):
   Account Name: Support Forge LLC
 
 Zelle: {YOUR_EMAIL}
-Venmo: @perry-bailes (or {YOUR_EMAIL})
+Venmo: @{YOUR_HANDLE} (or {YOUR_EMAIL})
 ```
 
 ## Invoice Template

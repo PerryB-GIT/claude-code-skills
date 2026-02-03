@@ -40,15 +40,20 @@ WAKE_WORDS = [
     "hello evie",
 ]
 
-# Greeting responses based on time
+# Microphone settings
+# Index 18 = Logitech C525 HD WebCam (correct endpoint with actual speech, not noise)
+# Note: Index 8 captures high levels but it's noise/interference, not speech
+DEFAULT_MIC_INDEX = 18
+
+# Model settings for speed optimization
+# "tiny" is 3x faster than "base" - good for wake word detection
+# "base" is more accurate - use for command transcription
+WAKE_WORD_MODEL = "tiny"
+COMMAND_MODEL = "base"
+
+# Greeting response when activated
 def get_greeting():
-    hour = datetime.datetime.now().hour
-    if hour < 12:
-        return "Good morning, love. What can I do for you?"
-    elif hour < 17:
-        return "Good afternoon, love. How can I help?"
-    else:
-        return "Good evening, love. What do you need?"
+    return "Yes dear, I am here to serve."
 
 def log(msg):
     """Log message with timestamp."""
@@ -93,18 +98,20 @@ def run_listener():
     sys.path.insert(0, str(EVIE_DIR))
 
     try:
-        from evie_listen import listen_once, get_whisper_model
+        from evie_listen import listen_fixed, get_whisper_model
     except ImportError:
         # Try alternate import
         import importlib.util
         spec = importlib.util.spec_from_file_location("evie_listen", EVIE_DIR / "evie-listen.py")
         evie_listen = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(evie_listen)
-        listen_once = evie_listen.listen_once
+        listen_fixed = evie_listen.listen_fixed
         get_whisper_model = evie_listen.get_whisper_model
 
-    # Preload the model
-    get_whisper_model()
+    # Preload both models for instant switching
+    log("Loading speech models...")
+    get_whisper_model(WAKE_WORD_MODEL)  # Fast model for wake words
+    get_whisper_model(COMMAND_MODEL)    # Accurate model for commands
 
     log("Evie is now listening for wake words...")
     log(f"Say any of: {', '.join(WAKE_WORDS)}")
@@ -112,10 +119,27 @@ def run_listener():
     waiting_for_command = False
     active_wake_word = None
 
+    # Recording durations
+    WAKE_WORD_DURATION = 3   # Short recordings for wake word detection
+    COMMAND_DURATION = 8     # Longer recordings for commands
+
     while True:
         try:
-            # Listen for speech
-            text = listen_once(timeout=None, phrase_limit=15)
+            # Choose model and duration based on state
+            if waiting_for_command:
+                current_model = COMMAND_MODEL
+                duration = COMMAND_DURATION
+            else:
+                current_model = WAKE_WORD_MODEL
+                duration = WAKE_WORD_DURATION
+
+            # Record fixed-duration audio (reliable method)
+            text = listen_fixed(
+                duration=duration,
+                mic_index=DEFAULT_MIC_INDEX,
+                model_size=current_model,
+                verbose=False
+            )
 
             if not text:
                 continue
@@ -219,9 +243,13 @@ def main():
         if PID_FILE.exists():
             pid = int(PID_FILE.read_text().strip())
             try:
-                os.kill(pid, signal.SIGTERM)
+                if sys.platform == "win32":
+                    subprocess.run(["taskkill", "/F", "/PID", str(pid)],
+                                   capture_output=True, check=True)
+                else:
+                    os.kill(pid, signal.SIGTERM)
                 print(f"Stopped Evie (PID: {pid})")
-            except ProcessLookupError:
+            except (ProcessLookupError, subprocess.CalledProcessError, OSError):
                 print("Evie process not found, cleaning up...")
             PID_FILE.unlink()
         else:
@@ -232,10 +260,22 @@ def main():
     if PID_FILE.exists():
         pid = int(PID_FILE.read_text().strip())
         try:
-            os.kill(pid, 0)  # Check if process exists
-            print(f"Evie is already running (PID: {pid})")
-            return
-        except ProcessLookupError:
+            # Cross-platform process check
+            if sys.platform == "win32":
+                import ctypes
+                kernel32 = ctypes.windll.kernel32
+                handle = kernel32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+                if handle:
+                    kernel32.CloseHandle(handle)
+                    print(f"Evie is already running (PID: {pid})")
+                    return
+                # Process doesn't exist
+                PID_FILE.unlink()
+            else:
+                os.kill(pid, 0)  # Unix: Check if process exists
+                print(f"Evie is already running (PID: {pid})")
+                return
+        except (ProcessLookupError, OSError):
             PID_FILE.unlink()  # Stale PID file
 
     # Write PID file

@@ -15,6 +15,12 @@ import sys
 import argparse
 import os
 
+# Ensure ffmpeg is in PATH for Whisper (Windows fix)
+if sys.platform == "win32":
+    ffmpeg_path = r"C:\ffmpeg\bin"
+    if ffmpeg_path not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = ffmpeg_path + ";" + os.environ.get("PATH", "")
+
 # Install dependencies if needed
 def ensure_deps():
     deps = [
@@ -35,21 +41,90 @@ import speech_recognition as sr
 import whisper
 import tempfile
 import warnings
+import wave
+import numpy as np
+import io
 
 # Suppress whisper FP16 warning on CPU
 warnings.filterwarnings("ignore", message="FP16 is not supported on CPU")
 
-# Global whisper model (loaded once)
-_whisper_model = None
+
+def normalize_audio(wav_data, gain=10.0):
+    """
+    Normalize audio: remove DC offset and amplify for better transcription.
+
+    The Logitech C525 mic (index 18) captures speech at very low levels,
+    so we amplify by default gain of 10x to reach usable levels for Whisper.
+
+    Args:
+        wav_data: Raw WAV bytes from audio.get_wav_data()
+        gain: Amplification factor (default 10.0 for low-level mic)
+
+    Returns:
+        Corrected WAV bytes with DC offset removed and audio amplified
+    """
+    # Read the WAV data
+    with io.BytesIO(wav_data) as wav_io:
+        with wave.open(wav_io, 'rb') as wav:
+            channels = wav.getnchannels()
+            sample_width = wav.getsampwidth()
+            framerate = wav.getframerate()
+            n_frames = wav.getnframes()
+            raw_data = wav.readframes(n_frames)
+
+    # Convert to numpy array
+    samples = np.frombuffer(raw_data, dtype=np.int16).copy().astype(np.float64)
+
+    # Remove DC offset (center around zero)
+    samples = samples - samples.mean()
+
+    # Amplify the audio (C525 mic has very low output levels)
+    samples = samples * gain
+
+    # Clip to valid range and convert back to int16
+    samples = np.clip(samples, -32768, 32767).astype(np.int16)
+
+    # Write back to WAV format
+    output = io.BytesIO()
+    with wave.open(output, 'wb') as wav:
+        wav.setnchannels(channels)
+        wav.setsampwidth(sample_width)
+        wav.setframerate(framerate)
+        wav.writeframes(samples.tobytes())
+
+    return output.getvalue()
+
+
+# Alias for backwards compatibility
+def remove_dc_offset(wav_data):
+    """Backwards compatible alias for normalize_audio."""
+    return normalize_audio(wav_data, gain=10.0)
+
+# Global whisper models (loaded once)
+_whisper_models = {}
+_ambient_calibrated = False
+_recognizer = None
 
 def get_whisper_model(model_size="base"):
-    """Load whisper model (cached)."""
-    global _whisper_model
-    if _whisper_model is None:
+    """Load whisper model (cached). Supports multiple model sizes."""
+    global _whisper_models
+    if model_size not in _whisper_models:
         print(f"[Evie] Loading speech recognition model ({model_size})...")
-        _whisper_model = whisper.load_model(model_size)
-        print("[Evie] Ready to listen.")
-    return _whisper_model
+        _whisper_models[model_size] = whisper.load_model(model_size)
+        print(f"[Evie] Model '{model_size}' ready.")
+    return _whisper_models[model_size]
+
+def get_recognizer():
+    """Get cached recognizer instance with optimized settings."""
+    global _recognizer
+    if _recognizer is None:
+        _recognizer = sr.Recognizer()
+        # Increase pause threshold to avoid cutting off mid-sentence
+        _recognizer.pause_threshold = 1.5  # Wait 1.5 sec silence before stopping (default 0.8)
+        _recognizer.non_speaking_duration = 0.8  # Minimum silence before stop
+        _recognizer.dynamic_energy_threshold = True  # Auto-adjust to ambient
+        _recognizer.energy_threshold = 400  # Starting threshold, higher = less sensitive
+    return _recognizer
 
 def list_microphones():
     """List available microphones."""
@@ -59,7 +134,106 @@ def list_microphones():
         print(f"  [{i}] {name}")
     print()
 
-def listen_once(timeout=5, phrase_limit=None, mic_index=None, use_whisper=True):
+def listen_fixed(duration=3, mic_index=None, model_size="base", verbose=True, warmup=0.3):
+    """
+    Record audio for a fixed duration and transcribe with Whisper.
+
+    This is more reliable than listen() which can have speech detection issues.
+    Use this for wake word detection (short duration) and commands (longer duration).
+
+    Args:
+        duration: Seconds to record (default: 3 for wake words, use 8-10 for commands)
+        mic_index: Specific microphone index (None = default)
+        model_size: Whisper model size ("tiny", "base", "small")
+        verbose: Print status messages
+        warmup: Seconds to let mic stabilize before recording (default: 0.3)
+
+    Returns:
+        Transcribed text or empty string if nothing detected
+    """
+    recognizer = get_recognizer()
+    mic_kwargs = {"device_index": mic_index} if mic_index is not None else {}
+
+    try:
+        with sr.Microphone(**mic_kwargs) as source:
+            # Brief warmup to let mic stabilize (helps with DC offset issues)
+            if warmup > 0:
+                recognizer.adjust_for_ambient_noise(source, duration=warmup)
+
+            if verbose:
+                print(f"[Evie] Recording for {duration}s...")
+
+            # Use record() with fixed duration - this is reliable
+            audio = recognizer.record(source, duration=duration)
+
+            # Transcribe with Whisper
+            model = get_whisper_model(model_size)
+
+            # Remove DC offset from audio (fixes mic bias issues that confuse Whisper)
+            wav_data = remove_dc_offset(audio.get_wav_data())
+
+            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+                f.write(wav_data)
+                temp_path = f.name
+
+            try:
+                # Force English language to avoid DC offset causing wrong language detection
+                result = model.transcribe(temp_path, fp16=False, language='en')
+                text = result["text"].strip()
+                # Filter out Whisper hallucinations on silence
+                if text and not is_whisper_hallucination(text):
+                    return text
+                return ""
+            finally:
+                os.unlink(temp_path)
+
+    except Exception as e:
+        if verbose:
+            print(f"[Evie] Error: {e}")
+        return ""
+
+
+def is_whisper_hallucination(text):
+    """
+    Check if Whisper output is a hallucination (common on silence/noise).
+    Whisper sometimes generates these phrases when given silence.
+    """
+    hallucinations = [
+        "thank you",
+        "thanks for watching",
+        "subscribe",
+        "like and subscribe",
+        "see you next time",
+        "bye",
+        "goodbye",
+        "thank you for watching",
+        "please subscribe",
+        "...",
+        "you",
+        "the",
+        # Additional patterns discovered during testing
+        "?!?!",
+        "a&m",
+        "techn bi",
+        "...",
+        "。",
+        "!",
+        "?",
+    ]
+    text_lower = text.lower().strip()
+    # Check exact matches or very short outputs
+    if len(text_lower) < 3:
+        return True
+    # Check if text is mostly punctuation
+    if len(text_lower.replace(".", "").replace("?", "").replace("!", "").strip()) < 2:
+        return True
+    for h in hallucinations:
+        if text_lower == h or text_lower == h + ".":
+            return True
+    return False
+
+
+def listen_once(timeout=5, phrase_limit=None, mic_index=None, use_whisper=True, model_size="base", verbose=True):
     """
     Listen for a single utterance and return transcribed text.
 
@@ -68,39 +242,49 @@ def listen_once(timeout=5, phrase_limit=None, mic_index=None, use_whisper=True):
         phrase_limit: Max seconds of speech to capture
         mic_index: Specific microphone index (None = default)
         use_whisper: Use Whisper (True) or Google Speech API (False)
+        model_size: Whisper model size ("tiny", "base", "small") - tiny is fastest
+        verbose: Print status messages
 
     Returns:
         Transcribed text or None if failed
     """
-    recognizer = sr.Recognizer()
+    global _ambient_calibrated
 
-    # Adjust for ambient noise
+    recognizer = get_recognizer()
     mic_kwargs = {"device_index": mic_index} if mic_index is not None else {}
 
     try:
         with sr.Microphone(**mic_kwargs) as source:
-            print("[Evie] Adjusting for ambient noise...")
-            recognizer.adjust_for_ambient_noise(source, duration=0.5)
+            # Only calibrate ambient noise once per session
+            if not _ambient_calibrated:
+                if verbose:
+                    print("[Evie] Calibrating for ambient noise...")
+                recognizer.adjust_for_ambient_noise(source, duration=0.3)
+                _ambient_calibrated = True
 
-            print("[Evie] Listening... (speak now)")
+            if verbose:
+                print("[Evie] Listening...")
             audio = recognizer.listen(
                 source,
                 timeout=timeout,
                 phrase_time_limit=phrase_limit
             )
-            print("[Evie] Processing...")
 
             if use_whisper:
                 # Use Whisper for transcription
-                model = get_whisper_model()
+                model = get_whisper_model(model_size)
+
+                # Remove DC offset from audio (fixes mic bias issues that confuse Whisper)
+                wav_data = remove_dc_offset(audio.get_wav_data())
 
                 # Save audio to temp file
                 with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-                    f.write(audio.get_wav_data())
+                    f.write(wav_data)
                     temp_path = f.name
 
                 try:
-                    result = model.transcribe(temp_path, fp16=False)
+                    # Force English language to avoid DC offset causing wrong language detection
+                    result = model.transcribe(temp_path, fp16=False, language='en')
                     text = result["text"].strip()
                 finally:
                     os.unlink(temp_path)
@@ -111,16 +295,16 @@ def listen_once(timeout=5, phrase_limit=None, mic_index=None, use_whisper=True):
             return text
 
     except sr.WaitTimeoutError:
-        print("[Evie] No speech detected.")
         return None
     except sr.UnknownValueError:
-        print("[Evie] Couldn't understand that.")
         return None
     except sr.RequestError as e:
-        print(f"[Evie] Speech service error: {e}")
+        if verbose:
+            print(f"[Evie] Speech service error: {e}")
         return None
     except Exception as e:
-        print(f"[Evie] Error: {e}")
+        if verbose:
+            print(f"[Evie] Error: {e}")
         return None
 
 def listen_continuous(wake_word=None, exit_phrase="goodbye evie", mic_index=None):

@@ -11,12 +11,12 @@ Monitor health and status of all managed client sites.
 
 | Site | Platform | Hosting | Profile | Status Page |
 |------|----------|---------|---------|-------------|
-| support-forge.com | Next.js | EC2 Docker | support-forge | - |
+| support-forge.com | Next.js | GCP Cloud Run | support-forge | - |
 | vineyardvalais.com | Next.js | Amplify | default | - |
 | witchsbroomcleaning.com | Static | S3/CloudFront | default | - |
 | sweetmeadow-bakery.com | Next.js | Amplify | sweetmeadow | - |
 | homebasevet.com | Static | S3 | default | - |
-| jpbailes.com | Next.js | Amplify | default | - |
+| jpbailes.com | Next.js | GCP Cloud Run | support-forge | - |
 
 ## Quick Health Check
 
@@ -80,20 +80,21 @@ nslookup $SITE
 ### support-forge.com
 ```
 Type: Next.js Monorepo (Docker)
-Server: EC2 Ubuntu
-IP: 44.197.15.102 (Elastic IP)
-SSH: ubuntu@44.197.15.102 -i ~/.ssh/support-forge-key.pem
-Profile: support-forge
-Deploy: docker-compose build --no-cache web && docker-compose up -d
+Hosting: GCP Cloud Run
+Project: support-forge
+Region: us-central1
+Direct URL: https://support-forge-301352865144.us-central1.run.app
+
+Deploy:
+cd ~/support-forge-app
+gcloud run deploy support-forge --source . --region us-central1 --allow-unauthenticated --project support-forge
 
 Health Endpoints:
 - https://support-forge.com (main)
 - https://support-forge.com/client-setup/index.html
 
-Restart Commands:
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102
-cd /home/ubuntu/support-forge-app
-docker-compose restart
+DR Backup: EC2 ({LEGACY_EC2_IP}) - Legacy, deprecated
+DR Plan: ~/support-forge-app/Support_Forge_DR_Plan.pdf
 ```
 
 ### vineyardvalais.com
@@ -146,11 +147,18 @@ Deploy: aws s3 sync ./dist s3://homebasevet-staging --profile default
 ### jpbailes.com / me.jbailes.com
 ```
 Type: Next.js
-Hosting: AWS Amplify
-Profile: default
-App ID: d373lws1f7wsen
+Hosting: GCP Cloud Run
+Project: support-forge
+Region: us-central1
+Service: jpbailes
+Direct URL: https://jpbailes-301352865144.us-central1.run.app
 
-Deploy: Push to main branch (auto-deploy)
+Deploy:
+cd ~/me.jbailes.com
+gcloud run deploy jpbailes --source . --region us-central1 --allow-unauthenticated --project support-forge
+
+DR Backup: Render.com (jpbailes.onrender.com)
+DR Plan: ~/me.jbailes.com/JPbailes_DR_Plan.md
 ```
 
 ## SSL Certificate Monitoring
@@ -218,7 +226,7 @@ Sites to check monthly:
 
 **EC2 (support-forge.com)**:
 ```bash
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP}
 docker-compose logs --tail=100 web
 docker-compose logs --tail=100 nginx
 ```
@@ -270,7 +278,7 @@ aws amplify list-jobs --app-id [APP_ID] --branch-name main --profile [PROFILE]
 
 **EC2 Docker (support-forge.com)**:
 ```bash
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP}
 cd /home/ubuntu/support-forge-app
 docker-compose restart
 # or full rebuild:

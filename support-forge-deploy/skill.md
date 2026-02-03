@@ -7,7 +7,7 @@ Use when Perry says: "deploy support forge", "push to production", "deploy sf", 
 
 ## Pre-flight Checks
 Before deploying, verify:
-1. Working directory is `C:/Users/Jakeb/support-forge-app/`
+1. Working directory is `~/support-forge-app/`
 2. Git status is clean (no uncommitted changes)
 3. Current branch is `main`
 4. `npm run build` succeeds locally
@@ -16,7 +16,7 @@ Before deploying, verify:
 
 ### 1. Commit any pending changes
 ```bash
-cd C:/Users/Jakeb/support-forge-app
+cd ~/support-forge-app
 git status
 # If changes exist, commit them first
 ```
@@ -28,7 +28,7 @@ git push origin main
 
 ### 3. SSH and Deploy
 ```bash
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102 << 'EOF'
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP} << 'EOF'
 cd /home/ubuntu/support-forge-app
 git pull origin main
 docker-compose build --no-cache web
@@ -45,7 +45,7 @@ EOF
 ## Rollback Procedure
 If deployment fails:
 ```bash
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102 << 'EOF'
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP} << 'EOF'
 cd /home/ubuntu/support-forge-app
 git log --oneline -5
 git checkout HEAD~1
@@ -57,7 +57,7 @@ EOF
 ## Quick Restart (No Rebuild)
 For config-only changes:
 ```bash
-ssh -i ~/.ssh/support-forge-key.pem ubuntu@44.197.15.102 "cd /home/ubuntu/support-forge-app && docker-compose restart web"
+ssh -i ~/.ssh/support-forge-key.pem ubuntu@{LEGACY_EC2_IP} "cd /home/ubuntu/support-forge-app && docker-compose restart web"
 ```
 
 ## Post-Deploy Notifications

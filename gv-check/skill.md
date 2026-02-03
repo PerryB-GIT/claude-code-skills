@@ -15,15 +15,15 @@ Quick status check on the GV Receptionist system. Use to verify monitoring is ru
 ## Reference Information
 
 ### File Locations
-- Main Script: `C:\Users\Jakeb\mcp-servers\gv-receptionist\gv-receptionist.js`
-- Message Checker: `C:\Users\Jakeb\mcp-servers\gv-receptionist\check-gv-messages.js`
-- Log File: `C:\Users\Jakeb\mcp-servers\gv-receptionist\gv-receptionist.log`
-- Check Log: `C:\Users\Jakeb\mcp-servers\gv-receptionist\gv-check.log`
-- Processed Messages: `C:\Users\Jakeb\mcp-servers\gv-receptionist\processed-messages.json`
+- Main Script: `~/mcp-servers/gv-receptionist/gv-receptionist.js`
+- Message Checker: `~/mcp-servers/gv-receptionist/check-gv-messages.js`
+- Log File: `~/mcp-servers/gv-receptionist/gv-receptionist.log`
+- Check Log: `~/mcp-servers/gv-receptionist/gv-check.log`
+- Processed Messages: `~/mcp-servers/gv-receptionist/processed-messages.json`
 
 ### Phone Numbers
-- Support Forge Business: (978) 219-9092
-- Perry's Personal: (478) 299-1604
+- Business Line: {BUSINESS_PHONE}
+- Personal (for commands): {PERSONAL_PHONE}
 
 ### Scheduled Tasks
 | Task | Schedule | Purpose |

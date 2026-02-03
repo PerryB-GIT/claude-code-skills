@@ -10,8 +10,8 @@ Quick deployment helper for Perry's client sites.
 | witchsbroomcleaning.com | Static | S3 + CloudFront |
 | sweetmeadow-bakery.com | Next.js | Amplify (appId: dqa0p0t9xllsd) |
 | homebasevet.com | Static | S3: homebasevet-staging |
-| me.jbailes.com / jpbailes.com | Next.js | Amplify (appId: d373lws1f7wsen) |
-| support-forge.com | Next.js | EC2 Docker (use /support-forge-deploy) |
+| me.jbailes.com / jpbailes.com | Next.js | GCP Cloud Run (use /jpbailes-deploy) |
+| support-forge.com | Next.js | GCP Cloud Run (use /support-forge-deploy) |
 
 ## Amplify Sites (Auto-Deploy)
 These auto-deploy on git push to main:
